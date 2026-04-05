@@ -969,6 +969,39 @@
     .splash-choices { flex-direction: column; align-items: center; }
     .splash-choice { width: 100%; max-width: 100%; }
   }
+
+  .hero-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-left { display: flex; flex-direction: column; }
+
+  .hero-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hero-stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .hero-stat-card .stat-num { font-size: 1.8rem; }
+  .hero-stat-card .stat-label { font-size: 0.8rem; margin-top: 0.25rem; }
+
+  @media (max-width: 900px) {
+    .hero-two-col { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stat-grid { grid-template-columns: 1fr 1fr; }
+  }
 </style>
 </head>
 <body style="overflow:hidden">
@@ -1025,29 +1058,35 @@
     <div class="hero">
       <div class="hero-grid"></div>
       <div class="hero-glow"></div>
-      <p class="hero-eyebrow">Intrix Home Concierge | Long Island, NY &amp; Nationwide Remote</p>
-      <h1>Your home technology,<br>finally in <em>good hands.</em></h1>
-      <p class="hero-sub">One call. An expert who already knows your setup, shows up prepared, and doesn't leave until it's right. No waiting. No guessing. No explaining yourself twice.</p>
-      <div class="hero-actions">
-        <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-primary">Book a Consultation</a>
-        <a href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'}); return false;" class="btn-ghost">See What We Do</a>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="stat-num">25+</div>
-          <div class="stat-label">Years in enterprise IT</div>
+      <div class="hero-two-col">
+        <div class="hero-left">
+          <p class="hero-eyebrow">Intrix Home Concierge | Long Island, NY &amp; Nationwide Remote</p>
+          <h1>Your home technology,<br>finally in <em>good hands.</em></h1>
+          <p class="hero-sub">One call. An expert who already knows your setup, shows up prepared, and doesn't leave until it's right. No waiting. No guessing. No explaining yourself twice.</p>
+          <div class="hero-actions">
+            <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-primary">Book a Consultation</a>
+            <a href="javascript:void(0)" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'}); return false;" class="btn-ghost">See What We Do</a>
+          </div>
         </div>
-        <div>
-          <div class="stat-num">Same day</div>
-          <div class="stat-label">Response, most requests</div>
-        </div>
-        <div>
-          <div class="stat-num">1</div>
-          <div class="stat-label">Expert, every single visit</div>
-        </div>
-        <div>
-          <div class="stat-num">0</div>
-          <div class="stat-label">Times you'll repeat yourself</div>
+        <div class="hero-right">
+          <div class="hero-stat-grid">
+            <div class="hero-stat-card">
+              <div class="stat-num">25+</div>
+              <div class="stat-label">Years in enterprise IT</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">Same day</div>
+              <div class="stat-label">Response, most requests</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">1</div>
+              <div class="stat-label">Expert, every single visit</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">0</div>
+              <div class="stat-label">Times you'll repeat yourself</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1104,25 +1143,35 @@
     <div class="hero">
       <div class="hero-grid"></div>
       <div class="hero-glow"></div>
-      <p class="hero-eyebrow">Intrix Business Advisory | Long Island, NY &amp; Nationwide Remote</p>
-      <h1>Where <em>Technology</em><br>Meets Business<br>Strategy.</h1>
-      <p class="hero-sub">We help organizations navigate the complexity of modern IT with 25+ years of enterprise experience in cloud, infrastructure, cybersecurity, and managed services.</p>
-      <div class="hero-actions">
-        <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-primary">Get Started</a>
-        <a href="javascript:void(0)" onclick="document.getElementById('biz-services').scrollIntoView({behavior:'smooth'}); return false;" class="btn-ghost">Explore Services</a>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="stat-num">25+</div>
-          <div class="stat-label">Years of Enterprise Experience</div>
+      <div class="hero-two-col">
+        <div class="hero-left">
+          <p class="hero-eyebrow">Intrix Business Advisory | Long Island, NY &amp; Nationwide Remote</p>
+          <h1>Where <em>Technology</em><br>Meets Business<br>Strategy.</h1>
+          <p class="hero-sub">We help organizations navigate the complexity of modern IT with 25+ years of enterprise experience in cloud, infrastructure, cybersecurity, and managed services.</p>
+          <div class="hero-actions">
+            <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-primary">Get Started</a>
+            <a href="javascript:void(0)" onclick="document.getElementById('biz-services').scrollIntoView({behavior:'smooth'}); return false;" class="btn-ghost">Explore Services</a>
+          </div>
         </div>
-        <div>
-          <div class="stat-num">50TB+</div>
-          <div class="stat-label">Data Protected</div>
-        </div>
-        <div>
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Client Focused</div>
+        <div class="hero-right">
+          <div class="hero-stat-grid">
+            <div class="hero-stat-card">
+              <div class="stat-num">25+</div>
+              <div class="stat-label">Years of Enterprise Experience</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">Fortune 500</div>
+              <div class="stat-label">Client pedigree</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">50TB+</div>
+              <div class="stat-label">Data Protected</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-num">100%</div>
+              <div class="stat-label">Client Focused</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
