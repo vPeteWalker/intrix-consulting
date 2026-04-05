@@ -958,13 +958,18 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
 
-    /* Nav */
-    nav { padding: 1rem 4%; }
-    .nav-center { padding: 0.2rem; }
-    .nav-mode-btn { padding: 0.4rem 0.85rem; font-size: 0.78rem; }
-    .nav-logo { font-size: 1.1rem; }
-    .nav-links { gap: 1rem; }
-    .nav-cta { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+    /* Nav - hide About and Contact Us, keep pill toggle visible */
+    nav {
+      padding: 0.9rem 4%;
+      grid-template-columns: auto 1fr;
+    }
+    .nav-links { display: none; }
+    .nav-center {
+      padding: 0.2rem;
+      justify-self: end;
+    }
+    .nav-mode-btn { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+    .nav-logo { font-size: 1rem; }
 
     /* Splash */
     .splash-logo { font-size: 2rem; }
@@ -973,18 +978,28 @@
     .choice-title { font-size: 1.1rem; }
     .choice-desc { font-size: 0.85rem; }
 
-    /* Hero */
-    .hero { padding: 6rem 4% 3rem; }
-    .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
+    /* Hero - full single column, no right overflow */
+    .hero { padding: 5rem 4% 3rem; overflow: hidden; }
+    .hero h1 { font-size: clamp(2rem, 9vw, 3rem); }
     .hero-sub { font-size: 0.95rem; }
-    .hero-two-col { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-stat-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .hero-eyebrow { font-size: 0.65rem; }
+    .hero-two-col {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      overflow: hidden;
+    }
+    .hero-stat-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      overflow: hidden;
+    }
     .hero-stat-card { padding: 1rem; }
-    .hero-stat-card .stat-num { font-size: 1.4rem; }
+    .hero-stat-card .stat-num { font-size: 1.3rem; }
+    .hero-stat-card .stat-label { font-size: 0.75rem; }
 
     /* Sections */
     section { padding: 3rem 4%; }
-    h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
     .services-header { flex-direction: column; gap: 1rem; }
     .services-grid { grid-template-columns: 1fr; }
 
@@ -993,16 +1008,16 @@
 
     /* Forms */
     .form-row { grid-template-columns: 1fr; }
-    .contact-form { padding: 1.5rem; }
+    .contact-form { padding: 1.25rem; }
 
     /* About cards */
     .about-card { padding: 1.25rem; }
 
     /* Pages */
-    #page-about, #page-contact { padding: 6rem 4% 3rem; }
+    #page-about, #page-contact { padding: 5rem 4% 3rem; }
 
     /* Footer */
-    footer { flex-direction: column; align-items: flex-start; gap: 1rem; text-align: left; }
+    footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .footer-links { flex-wrap: wrap; gap: 1rem; }
   }
 
