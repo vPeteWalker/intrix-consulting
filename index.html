@@ -1227,6 +1227,10 @@
         </div>
       </div>
       <div class="contact-form">
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+          <button id="contact-toggle-home" onclick="setContactType('home')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:var(--bg); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer;">Personal</button>
+          <button id="contact-toggle-biz" onclick="setContactType('business')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer;">Corporate</button>
+        </div>
         <div class="form-row">
           <div class="form-group">
             <label>First Name</label>
@@ -1241,7 +1245,7 @@
           <label>Email</label>
           <input type="email" placeholder="jane@email.com">
         </div>
-        <div class="form-group" id="contact-company-field" style="display:none;">
+        <div class="form-group" id="contact-company-field" style="display:none; flex-direction:column; gap:0.5rem;">
           <label>Company</label>
           <input type="text" placeholder="Acme Corp">
         </div>
@@ -1338,20 +1342,42 @@
     currentPage = null;
   }
 
-  function updateContactForm() {
-    const isBiz = currentExp === 'business';
+  function setContactType(type) {
+    const isBiz = type === 'business';
+    const btnHome = document.getElementById('contact-toggle-home');
+    const btnBiz = document.getElementById('contact-toggle-biz');
+    if (!btnHome) return;
+    if (isBiz) {
+      btnBiz.style.background = 'var(--accent)';
+      btnBiz.style.color = 'var(--bg)';
+      btnBiz.style.borderColor = 'var(--accent)';
+      btnBiz.style.fontWeight = '600';
+      btnHome.style.background = 'transparent';
+      btnHome.style.color = 'var(--muted)';
+      btnHome.style.borderColor = 'var(--border)';
+      btnHome.style.fontWeight = '500';
+    } else {
+      btnHome.style.background = 'var(--accent)';
+      btnHome.style.color = 'var(--bg)';
+      btnHome.style.borderColor = 'var(--accent)';
+      btnHome.style.fontWeight = '600';
+      btnBiz.style.background = 'transparent';
+      btnBiz.style.color = 'var(--muted)';
+      btnBiz.style.borderColor = 'var(--border)';
+      btnBiz.style.fontWeight = '500';
+    }
     const headingEl = document.getElementById('contact-heading');
     const subEl = document.getElementById('contact-sub');
-    if (!headingEl) return;
-    headingEl.textContent = isBiz ? 'Ready to find out more?' : 'Ready to get started?';
-    subEl.textContent = isBiz
-      ? "If you're looking for a partner who understands how to align technology to your business strategy, let's talk."
-      : 'Free initial consultation. No pressure. Just an honest conversation about what you need and how we can help.';
+    if (headingEl) {
+      headingEl.textContent = isBiz ? 'Ready to find out more?' : 'Ready to get started?';
+      subEl.textContent = isBiz
+        ? "If you're looking for a partner who understands how to align technology to your business strategy, let's talk."
+        : 'Free initial consultation. No pressure. Just an honest conversation about what you need and how we can help.';
+    }
     const companyField = document.getElementById('contact-company-field');
-    companyField.style.display = isBiz ? 'flex' : 'none';
-    companyField.style.flexDirection = 'column';
-    companyField.style.gap = '0.5rem';
+    if (companyField) companyField.style.display = isBiz ? 'flex' : 'none';
     const serviceSelect = document.getElementById('contact-service');
+    if (!serviceSelect) return;
     const homeOptions = [
       ['', 'Select a service...'],
       ['PC / Laptop Repair', 'PC / Laptop Repair'],
@@ -1372,8 +1398,12 @@
       ['Microsoft 365', 'Microsoft 365'],
       ['Something Else', 'Something Else'],
     ];
-    const opts = isBiz ? bizOptions : homeOptions;
-    serviceSelect.innerHTML = opts.map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+    serviceSelect.innerHTML = (isBiz ? bizOptions : homeOptions)
+      .map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+  }
+
+  function updateContactForm() {
+    setContactType(currentExp === 'business' ? 'business' : 'home');
   }
 </script>
 
