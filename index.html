@@ -42,6 +42,7 @@
     justify-content: center;
     background: var(--bg);
     transition: opacity 0.6s ease, visibility 0.6s ease;
+    overflow-y: auto;
   }
 
   #splash.hidden {
@@ -84,7 +85,7 @@
     position: relative;
     z-index: 1;
     text-align: center;
-    padding: 2rem;
+    padding: 4rem 2rem;
   }
 
   .splash-logo {
@@ -1295,7 +1296,9 @@
   function selectExperience(exp) {
     currentExp = exp;
     currentPage = null;
-    document.getElementById('splash').classList.add('hidden');
+    const splash = document.getElementById('splash');
+    splash.classList.add('hidden');
+    setTimeout(() => { splash.style.display = 'none'; }, 650);
     const main = document.getElementById('main-site');
     main.classList.add('visible');
     document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -1323,7 +1326,9 @@
   }
 
   function returnToSplash() {
-    document.getElementById('splash').classList.remove('hidden');
+    const splash = document.getElementById('splash');
+    splash.style.display = 'flex';
+    setTimeout(() => { splash.classList.remove('hidden'); }, 10);
     document.getElementById('main-site').classList.remove('visible');
     document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
     window.scrollTo({ top: 0, behavior: 'instant' });
