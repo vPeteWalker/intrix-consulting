@@ -1027,8 +1027,19 @@
     gap: 4rem;
     align-items: center;
     width: 100%;
+    max-width: 100%;
     position: relative;
     z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .hero-two-col {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+    .hero-stat-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
   }
 
   .hero-left { display: flex; flex-direction: column; }
