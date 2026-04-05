@@ -177,8 +177,8 @@
   .splash-choice:hover::before { opacity: 1; }
 
   .choice-icon {
-    font-size: 2rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
     display: block;
   }
 
@@ -193,10 +193,10 @@
 
   .choice-title {
     font-family: 'Manrope', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .choice-desc {
@@ -218,7 +218,7 @@
     gap: 0.4rem;
     font-size: 0.8rem;
     color: var(--accent);
-    margin-top: 1.25rem;
+    margin-top: 0.75rem;
     font-weight: 500;
   }
 
@@ -226,6 +226,7 @@
   #main-site {
     opacity: 0;
     transition: opacity 0.6s ease;
+    overflow-x: hidden;
   }
 
   #main-site.visible { opacity: 1; }
@@ -346,6 +347,7 @@
     top: 10%;
     right: -100px;
     pointer-events: none;
+    overflow: hidden;
   }
 
   .hero-eyebrow {
