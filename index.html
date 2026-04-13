@@ -920,13 +920,16 @@
   footer {
     border-top: 1px solid var(--border);
     padding: 2rem 5%;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     font-size: 0.82rem;
     color: var(--muted);
-    flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  footer .footer-copyright {
+    text-align: right;
   }
 
   .footer-logo {
@@ -1437,7 +1440,7 @@
       <li><a href="javascript:void(0)" onclick="showPage('about'); return false;">About</a></li>
       <li><a href="javascript:void(0)" onclick="showPage('contact'); return false;">Contact Us</a></li>
     </ul>
-    <div>&copy; 2026 Intrix Consulting LLC. All rights reserved.</div>
+    <div class="footer-copyright">&copy; 2026 Intrix Consulting LLC. All rights reserved.</div>
   </footer>
 
 </div><!-- end main-site -->
