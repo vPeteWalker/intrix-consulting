@@ -1,7 +1,0 @@
-name = "intrix-contact"
-main = "worker.js"
-compatibility_date = "2024-01-01"
-
-[[kv_namespaces]]
-binding = "SUBMISSIONS"
-id = "fa6b1c16924b467383b5b5e8c3f8bcd6"
