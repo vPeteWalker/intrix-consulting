@@ -1530,10 +1530,8 @@
       const data = await res.json();
 
       if (data.success) {
-        msg.style.display = 'block';
-        msg.style.color = '#00c8ff';
-        msg.textContent = "Thank you! We'll be in touch shortly.";
         form.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+        showSuccessPopup();
       } else {
         throw new Error(data.error || 'Submission failed');
       }
@@ -1545,6 +1543,15 @@
       btn.disabled = false;
       btn.textContent = 'Send Message';
     }
+  }
+
+  function showSuccessPopup() {
+    const popup = document.getElementById('success-popup');
+    popup.style.display = 'flex';
+  }
+
+  function closeSuccessPopup() {
+    document.getElementById('success-popup').style.display = 'none';
   }
 
   function returnToSplash() {
@@ -1622,6 +1629,17 @@
     setContactType(currentExp === 'business' ? 'business' : 'home');
   }
 </script>
+
+
+  <!-- SUCCESS POPUP -->
+  <div id="success-popup" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+    <div style="background:#0d1420; border:1px solid rgba(0,200,255,0.3); border-radius:20px; padding:3rem; max-width:420px; width:90%; text-align:center; position:relative;">
+      <div style="width:60px; height:60px; background:rgba(0,200,255,0.1); border:2px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; font-size:1.5rem;">✓</div>
+      <h3 style="font-family:'Manrope',sans-serif; font-size:1.4rem; font-weight:700; margin-bottom:0.75rem; color:var(--text);">Message Sent!</h3>
+      <p style="color:var(--muted); font-size:0.95rem; line-height:1.7; margin-bottom:2rem;">Thank you for reaching out. We'll review your message and be in touch shortly.</p>
+      <button onclick="closeSuccessPopup()" style="background:var(--accent); color:var(--bg); border:none; padding:0.85rem 2.5rem; border-radius:8px; font-family:'Manrope',sans-serif; font-size:0.95rem; font-weight:600; cursor:pointer;">Close</button>
+    </div>
+  </div>
 
 </body>
 </html>
