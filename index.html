@@ -1421,7 +1421,8 @@
           <label>Tell us more</label>
           <textarea placeholder="Describe what you need..."></textarea>
         </div>
-        <button class="form-submit">Send Message</button>
+        <button class="form-submit" id="submit-btn" onclick="submitForm(event)">Send Message</button>
+        <p id="form-msg" style="margin-top:0.75rem; font-size:0.85rem; display:none;"></p>
       </div>
     </div>
   </div>
@@ -1491,6 +1492,59 @@
     document.getElementById('btn-business').classList.remove('active');
     document.getElementById('btn-' + exp).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('form-msg');
+    const form = btn.closest('.contact-form');
+
+    const firstName = form.querySelector('input[placeholder="Jane"]')?.value || form.querySelector('input[placeholder="John"]')?.value || '';
+    const lastName = form.querySelector('input[placeholder="Smith"]')?.value || '';
+    const email = form.querySelector('input[type="email"]')?.value || '';
+    const company = form.querySelector('input[placeholder="Acme Corp"]')?.value || '';
+    const service = form.querySelector('select')?.value || '';
+    const message = form.querySelector('textarea')?.value || '';
+    const isBiz = document.getElementById('contact-toggle-biz')?.style.background?.includes('0,200') || currentExp === 'business';
+    const type = isBiz ? 'business' : 'home';
+
+    if (!firstName || !lastName || !email || !message) {
+      msg.style.display = 'block';
+      msg.style.color = '#ff6b6b';
+      msg.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    msg.style.display = 'none';
+
+    try {
+      const res = await fetch('https://intrix-contact.walker-peter.workers.dev/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, email, company, service, message, type })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        msg.style.display = 'block';
+        msg.style.color = '#00c8ff';
+        msg.textContent = "Thank you! We'll be in touch shortly.";
+        form.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+      } else {
+        throw new Error(data.error || 'Submission failed');
+      }
+    } catch (err) {
+      msg.style.display = 'block';
+      msg.style.color = '#ff6b6b';
+      msg.textContent = 'Something went wrong. Please email us directly at info@intrixconsulting.com';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
   }
 
   function returnToSplash() {
