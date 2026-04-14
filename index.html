@@ -101,6 +101,7 @@
   ]
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -1211,6 +1212,63 @@
     /* Add padding to body so content isn't hidden behind bar */
     body { padding-bottom: 70px; }
   }
+
+  .blog-filter {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .blog-filter.active, .blog-filter:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,200,255,0.05);
+  }
+  .blog-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .blog-card:hover { border-color: rgba(0,200,255,0.3); transform: translateY(-2px); }
+  .blog-card-category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .blog-card-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+  .blog-card-excerpt {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .blog-card-date { font-size: 0.75rem; color: var(--muted); }
+  .blog-post-body { line-height: 1.8; font-size: 1rem; }
+  .blog-post-body h1, .blog-post-body h2 { font-family: 'Manrope', sans-serif; font-weight: 700; margin: 2rem 0 0.75rem; }
+  .blog-post-body h1 { font-size: 2rem; }
+  .blog-post-body h2 { font-size: 1.4rem; }
+  .blog-post-body p { margin-bottom: 1.25rem; color: var(--muted); }
+  .blog-post-body strong { color: var(--text); }
+  .blog-post-body ul, .blog-post-body ol { margin: 1rem 0 1.25rem 1.5rem; color: var(--muted); }
+  .blog-post-body li { margin-bottom: 0.4rem; }
 </style>
 </head>
 <body style="overflow:hidden">
@@ -1425,6 +1483,31 @@
   </div><!-- end exp-business -->
 
 
+
+  <!-- BLOG PAGE -->
+  <div id="page-blog" class="page" style="display:none; padding: 8rem 5% 6rem; min-height:100vh;">
+    <span class="section-eyebrow">Insights</span>
+    <h2 style="margin-bottom:0.5rem;">From the Desk of Peter Walker</h2>
+    <p class="section-sub" style="max-width:600px; margin-bottom:2rem;">Honest takes on technology for home users and businesses. No vendor bias. No fluff.</p>
+
+    <!-- Category filter -->
+    <div style="display:flex; gap:0.5rem; margin-bottom:2.5rem; flex-wrap:wrap;">
+      <button class="blog-filter active" data-cat="all" onclick="filterBlog('all')">All</button>
+      <button class="blog-filter" data-cat="home" onclick="filterBlog('home')">Home Concierge</button>
+      <button class="blog-filter" data-cat="business" onclick="filterBlog('business')">Business Advisory</button>
+    </div>
+
+    <div id="blog-posts-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.5rem;">
+      <div id="blog-loading" style="color:#7a8a9e; grid-column:1/-1; padding:2rem 0;">Loading posts...</div>
+    </div>
+
+    <!-- Single post view -->
+    <div id="blog-post-view" style="display:none; max-width:720px; margin:0 auto;">
+      <button onclick="closeBlogPost()" style="background:transparent; border:none; color:#00c8ff; font-size:0.85rem; cursor:pointer; margin-bottom:2rem; padding:0; font-family:'Manrope',sans-serif;">← Back to Insights</button>
+      <div id="blog-post-content"></div>
+    </div>
+  </div>
+
   <!-- ABOUT PAGE -->
   <div id="page-about" class="page" style="display:none; padding: 8rem 5% 6rem;">
     <div class="two-col">
@@ -1527,6 +1610,7 @@
 
   <!-- MOBILE BOTTOM BAR -->
   <div class="mobile-bottom-bar">
+    <button class="mobile-bottom-btn about" onclick="showPage('blog')">Insights</button>
     <button class="mobile-bottom-btn about" onclick="showPage('about')">About</button>
     <button class="mobile-bottom-btn contact" onclick="showPage('contact')">Contact Us</button>
   </div>
@@ -1535,6 +1619,7 @@
   <footer>
     <div class="footer-logo" onclick="returnToSplash()">Intrix<span>.</span></div>
     <ul class="footer-links">
+      <li><a href="javascript:void(0)" onclick="showPage('blog'); return false;">Insights</a></li>
       <li><a href="javascript:void(0)" onclick="showPage('about'); return false;">About</a></li>
       <li><a href="javascript:void(0)" onclick="showPage('contact'); return false;">Contact Us</a></li>
     </ul>
@@ -1660,6 +1745,65 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
     currentExp = null;
     currentPage = null;
+  }
+
+
+  let allBlogPosts = [];
+
+  async function loadBlogPosts() {
+    try {
+      const res = await fetch('https://intrix-blog.walker-peter.workers.dev/posts');
+      allBlogPosts = await res.json();
+      renderBlogPosts(allBlogPosts);
+    } catch (e) {
+      document.getElementById('blog-loading').textContent = 'Could not load posts.';
+    }
+  }
+
+  function renderBlogPosts(posts) {
+    const grid = document.getElementById('blog-posts-grid');
+    if (!posts.length) {
+      grid.innerHTML = '<p style="color:#7a8a9e; grid-column:1/-1; padding:2rem 0;">No posts yet. Check back soon.</p>';
+      return;
+    }
+    grid.innerHTML = posts.map(p => `
+      <div class="blog-card" onclick="openBlogPost('${p.id}')">
+        <div class="blog-card-category" style="color:${p.category === 'home' ? '#00c8ff' : '#6699ff'}">${p.category === 'home' ? 'Home Concierge' : 'Business Advisory'}</div>
+        <div class="blog-card-title">${p.title}</div>
+        <div class="blog-card-excerpt">${p.excerpt}</div>
+        <div class="blog-card-date">${new Date(p.date).toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' })}</div>
+      </div>
+    `).join('');
+  }
+
+  function filterBlog(cat) {
+    document.querySelectorAll('.blog-filter').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-cat="' + cat + '"]').classList.add('active');
+    const filtered = cat === 'all' ? allBlogPosts : allBlogPosts.filter(p => p.category === cat);
+    renderBlogPosts(filtered);
+  }
+
+  function openBlogPost(id) {
+    const post = allBlogPosts.find(p => p.id === id);
+    if (!post) return;
+    document.getElementById('blog-posts-grid').style.display = 'none';
+    document.querySelector('.blog-filter.active').closest('div').style.display = 'none';
+    document.getElementById('blog-post-view').style.display = 'block';
+
+    const html = marked(post.body);
+    document.getElementById('blog-post-content').innerHTML = `
+      <div style="margin-bottom:0.5rem; font-size:0.78rem; color:${post.category === 'home' ? '#00c8ff' : '#6699ff'}; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;">${post.category === 'home' ? 'Home Concierge' : 'Business Advisory'}</div>
+      <h1 style="font-family:'Manrope',sans-serif; font-weight:800; font-size:2.2rem; line-height:1.2; margin-bottom:1rem;">${post.title}</h1>
+      <p style="font-size:0.82rem; color:#7a8a9e; margin-bottom:2.5rem;">${new Date(post.date).toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' })}</p>
+      <div class="blog-post-body">${html}</div>
+    `;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeBlogPost() {
+    document.getElementById('blog-post-view').style.display = 'none';
+    document.getElementById('blog-posts-grid').style.display = 'grid';
+    document.querySelector('[data-cat]').closest('div').style.display = 'flex';
   }
 
   function setContactType(type) {
