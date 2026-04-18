@@ -1603,6 +1603,9 @@
           <label>Tell us more</label>
           <textarea placeholder="Describe what you need..."></textarea>
         </div>
+        <div style="position:absolute; left:-9999px; top:-9999px; opacity:0;" aria-hidden="true">
+          <input type="text" id="hp_field" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <button class="form-submit" id="submit-btn" onclick="submitForm(event)">Send Message</button>
         <p id="form-msg" style="margin-top:0.75rem; font-size:0.85rem; display:none;"></p>
       </div>
@@ -1693,6 +1696,10 @@
     const isBiz = document.getElementById('contact-toggle-biz')?.style.background?.includes('0,200') || currentExp === 'business';
     const type = isBiz ? 'business' : 'home';
 
+    // Honeypot check - bots fill this hidden field, humans don't
+    const honeypot = document.getElementById('hp_field')?.value || '';
+    if (honeypot) return;
+
     if (!firstName || !lastName || !email || !message) {
       msg.style.display = 'block';
       msg.style.color = '#ff6b6b';
@@ -1705,10 +1712,13 @@
     msg.style.display = 'none';
 
     try {
+      // Sanitize inputs - strip any HTML tags
+      const strip = s => s ? s.replace(/<[^>]*>/g, '').trim() : s;
+
       const res = await fetch('https://intrix-contact.walker-peter.workers.dev/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, company, service, message, type })
+        body: JSON.stringify({ firstName: strip(firstName), lastName: strip(lastName), email: strip(email), company: strip(company), service: strip(service), message: strip(message), type })
       });
 
       const data = await res.json();
