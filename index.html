@@ -918,7 +918,20 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6rem;
-    align-items: start;
+    align-items: stretch;
+  }
+  .contact-wrap > div:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-wrap > div:first-child .booking-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-wrap > div:first-child .booking-card .btn-primary {
+    margin-top: auto;
+    align-self: flex-start;
   }
 
   .contact-details {
