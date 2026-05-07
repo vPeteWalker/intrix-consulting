@@ -559,8 +559,10 @@
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    max-width: 600px;
     text-wrap: balance;
+    /* No max-width by design: parent containers (grids, columns) already constrain width.
+       Adding a max-width here forced awkward wraps on long headings like
+       "Technology Support, Done Right" and "From the Desk of Peter Walker". */
   }
 
   .section-sub {
@@ -582,7 +584,6 @@
     gap: 2rem;
     margin-bottom: 3.5rem;
   }
-  .services-header h2 { max-width: none; }
 
   .services-grid {
     display: grid;
