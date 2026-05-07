@@ -1271,7 +1271,52 @@
   .blog-post-body strong { color: var(--text); }
   .blog-post-body ul, .blog-post-body ol { margin: 1rem 0 1.25rem 1.5rem; color: var(--muted); }
   .blog-post-body li { margin-bottom: 0.4rem; }
+
+  /* Booking CTA styles */
+  .hero-cta-row { margin-top: 1.75rem; display: flex; gap: 0.85rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.95rem 1.6rem;
+    background: var(--accent); color: var(--bg);
+    border: none; border-radius: 10px;
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.95rem;
+    cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,200,255,0.25); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.9rem 1.55rem;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); border-radius: 10px;
+    font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 0.95rem;
+    cursor: pointer; transition: border-color 0.15s ease;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { border-color: var(--accent); }
+
+  .booking-card {
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+    background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(0,200,255,0.02));
+    border: 1px solid rgba(0,200,255,0.25);
+    border-radius: 14px;
+  }
+  .booking-card h3 {
+    font-family: 'Manrope', sans-serif; font-weight: 700;
+    font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .booking-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.75rem; }
+  .booking-card .btn-primary { margin-top: 0.5rem; }
 </style>
+
+<!-- Cal.com embed -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "consult", {origin:"https://cal.com"});
+Cal.ns.consult("ui", {"theme":"dark","cssVarsPerTheme":{"dark":{"cal-brand":"#00c8ff"}},"hideEventTypeDetails":false,"layout":"month_view"});
+</script>
 </head>
 <body style="overflow:hidden">
 
@@ -1288,14 +1333,14 @@
     <div class="splash-choices">
       <div class="splash-choice home" onclick="selectExperience('home')">
         <span class="choice-icon">🏠</span>
-        <div class="choice-label">Personal</div>
+        <div class="choice-label">For Your Home</div>
         <div class="choice-title">Home Concierge</div>
         <div class="choice-desc"><em>There is no shortage of cheap tech support. There is a shortage of tech support that is actually worth trusting.</em><br><br>Our clients get a 25-year enterprise veteran who shows up knowing what he is doing, tells them the truth even when it costs him money, and does not leave until the problem is actually solved.</div>
         <div class="choice-arrow">Enter →</div>
       </div>
       <div class="splash-choice business" onclick="selectExperience('business')">
         <span class="choice-icon">💼</span>
-        <div class="choice-label">Corporate</div>
+        <div class="choice-label">For Your Business</div>
         <div class="choice-title">Business Advisory</div>
         <div class="choice-desc"><em>Most businesses do not need a full-time IT department. They need the right person, when they need them.</em><br><br>Ongoing managed support from a senior IT professional who knows your environment, answers the phone, and has no vendor quota to fill. One person. Total accountability.</div>
         <div class="choice-arrow">Enter →</div>
@@ -1332,6 +1377,10 @@
           <p class="hero-eyebrow">Intrix Home Concierge | Long Island, NY &amp; Nationwide Remote</p>
           <h1>Your home technology,<br>finally in <em>good hands.</em></h1>
           <p class="hero-sub">One call. A senior IT professional who shows up prepared, tells you the truth about what is actually worth fixing, and does not leave until it is right. No waiting. No guessing. No explaining yourself twice.</p>
+          <div class="hero-cta-row">
+            <a href="#" class="btn-primary" data-cal-namespace="consult" data-cal-link="intrix/consult" data-cal-config='{"layout":"month_view","theme":"dark"}'>Book a Free 30-Minute Consult →</a>
+            <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-secondary">Send a Message</a>
+          </div>
 
         </div>
         <div class="hero-right">
@@ -1414,6 +1463,10 @@
           <p class="hero-eyebrow">Intrix Business Advisory | Long Island, NY &amp; Nationwide Remote</p>
           <h1>Where <em>Technology</em><br>Meets Business<br>Strategy.</h1>
           <p class="hero-sub">Most businesses do not need a full-time IT department. They need one person who knows their environment, picks up the phone, and gives them a straight answer. No ticket queues, no vendor bias, no disappearing after the sale.</p>
+          <div class="hero-cta-row">
+            <a href="#" class="btn-primary" data-cal-namespace="consult" data-cal-link="intrix/consult" data-cal-config='{"layout":"month_view","theme":"dark"}'>Book a Free 30-Minute Consult →</a>
+            <a href="javascript:void(0)" onclick="showPage('contact'); return false;" class="btn-secondary">Send a Message</a>
+          </div>
 
         </div>
         <div class="hero-right">
@@ -1559,14 +1612,22 @@
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">📍</div>
-            <span>Long Island, NY &mdash; On-site &amp; Remote Nationwide</span>
+            <span>Long Island, NY. On-site &amp; Remote Nationwide</span>
           </div>
+        </div>
+
+        <div class="booking-card">
+          <h3>Book a Free 30-Minute Consultation</h3>
+          <p>A no-cost, no-obligation conversation about what is going on with your technology and whether Intrix is the right fit to help.</p>
+          <p>Bring whatever is frustrating you. Slow computer. Unreliable Wi-Fi. A small business that needs ongoing IT support without hiring a full-time person. We will talk through it honestly, and if it is not a good fit, you will be told that plainly.</p>
+          <p>No sales pressure, no scripts. Just a conversation.</p>
+          <a href="#" class="btn-primary" data-cal-namespace="consult" data-cal-link="intrix/consult" data-cal-config='{"layout":"month_view","theme":"dark"}'>Book a Free Consult →</a>
         </div>
       </div>
       <div class="contact-form">
         <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
-          <button id="contact-toggle-home" onclick="setContactType('home')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:var(--bg); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer;">Personal</button>
-          <button id="contact-toggle-biz" onclick="setContactType('business')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer;">Corporate</button>
+          <button id="contact-toggle-home" onclick="setContactType('home')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:var(--bg); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer;">Home</button>
+          <button id="contact-toggle-biz" onclick="setContactType('business')" style="flex:1; padding:0.65rem; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Manrope',sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer;">Business</button>
         </div>
         <div class="form-row">
           <div class="form-group">
